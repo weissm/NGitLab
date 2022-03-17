@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using NGitLab.Models;
@@ -38,6 +39,11 @@ namespace NGitLab.Impl
         public Issue Get(int projectId, int issueId)
         {
             return _api.Get().To<Issue>(string.Format(CultureInfo.InvariantCulture, SingleIssueUrl, projectId, issueId));
+        }
+
+        public Issue Get(string projectId, int issueId)
+        {
+            return _api.Get().To<Issue>(string.Format(CultureInfo.InvariantCulture, SingleIssueUrl, WebUtility.UrlEncode(projectId), issueId));
         }
 
         public Task<Issue> GetAsync(int projectId, int issueId, CancellationToken cancellationToken = default)

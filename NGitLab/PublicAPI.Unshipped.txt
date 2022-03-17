@@ -231,6 +231,7 @@ NGitLab.IIssueClient.ForProjectAsync(int projectId) -> NGitLab.GitLabCollectionR
 NGitLab.IIssueClient.Get(int projectId, int issueId) -> NGitLab.Models.Issue
 NGitLab.IIssueClient.Get(int projectId, NGitLab.Models.IssueQuery query) -> System.Collections.Generic.IEnumerable<NGitLab.Models.Issue>
 NGitLab.IIssueClient.Get(NGitLab.Models.IssueQuery query) -> System.Collections.Generic.IEnumerable<NGitLab.Models.Issue>
+NGitLab.IIssueClient.Get(string projectId, int issueId) -> NGitLab.Models.Issue
 NGitLab.IIssueClient.GetAsync(int projectId, int issueId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<NGitLab.Models.Issue>
 NGitLab.IIssueClient.GetAsync(int projectId, NGitLab.Models.IssueQuery query) -> NGitLab.GitLabCollectionResponse<NGitLab.Models.Issue>
 NGitLab.IIssueClient.GetAsync(NGitLab.Models.IssueQuery query) -> NGitLab.GitLabCollectionResponse<NGitLab.Models.Issue>
@@ -448,6 +449,7 @@ NGitLab.Impl.IssueClient.ForProjectAsync(int projectId) -> NGitLab.GitLabCollect
 NGitLab.Impl.IssueClient.Get(int projectId, int issueId) -> NGitLab.Models.Issue
 NGitLab.Impl.IssueClient.Get(int projectId, NGitLab.Models.IssueQuery query) -> System.Collections.Generic.IEnumerable<NGitLab.Models.Issue>
 NGitLab.Impl.IssueClient.Get(NGitLab.Models.IssueQuery query) -> System.Collections.Generic.IEnumerable<NGitLab.Models.Issue>
+NGitLab.Impl.IssueClient.Get(string projectId, int issueId) -> NGitLab.Models.Issue
 NGitLab.Impl.IssueClient.GetAsync(int projectId, int issueId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<NGitLab.Models.Issue>
 NGitLab.Impl.IssueClient.GetAsync(int projectId, NGitLab.Models.IssueQuery query) -> NGitLab.GitLabCollectionResponse<NGitLab.Models.Issue>
 NGitLab.Impl.IssueClient.GetAsync(NGitLab.Models.IssueQuery query) -> NGitLab.GitLabCollectionResponse<NGitLab.Models.Issue>
