@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NGitLab.Models;
 
 namespace NGitLab.Mock.Clients
@@ -147,6 +149,23 @@ namespace NGitLab.Mock.Clients
 
                 throw new GitLabNotFoundException();
             }
+        }
+
+        public async Task<Models.User> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            await Task.Yield();
+            return this[id];
+        }
+
+        public async Task<Session> GetCurrentUserAsync(CancellationToken cancellationToken = default)
+        {
+            await Task.Yield();
+            return Current;
+        }
+
+        public GitLabCollectionResponse<LastActivityDate> GetLastActivityDatesAsync(DateTimeOffset? from = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

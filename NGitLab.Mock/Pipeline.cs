@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using NGitLab.Models;
 
 namespace NGitLab.Mock
@@ -47,14 +48,52 @@ namespace NGitLab.Mock
 
         public TestReport TestReports { get; set; }
 
+        [Obsolete("Use other overloads")]
         public Job AddNewJob(Project project)
         {
             return AddJob(project, new Job());
         }
 
+        public Job AddNewJob(JobStatus status)
+        {
+            var job = AddNewJob(name: "temp", status);
+            job.Name = "Job" + job.Id.ToString(CultureInfo.InvariantCulture);
+            return job;
+        }
+
+        public Job AddNewJob(string name, JobStatus status, User user = null)
+        {
+            var job = AddJob(new Job
+            {
+                Name = name,
+                Pipeline = this,
+                Status = status,
+                User = user ?? User,
+                CreatedAt = DateTime.UtcNow,
+            });
+
+            if (status is JobStatus.Running or JobStatus.Success or JobStatus.Failed or JobStatus.Canceled)
+            {
+                job.StartedAt = DateTime.UtcNow;
+            }
+
+            if (status is JobStatus.Success or JobStatus.Failed or JobStatus.Canceled)
+            {
+                job.FinishedAt = DateTime.UtcNow;
+            }
+
+            return job;
+        }
+
+        [Obsolete("Use other overloads")]
         public Job AddJob(Project project, Job job)
         {
             return project.Jobs.Add(job, this);
+        }
+
+        public Job AddJob(Job job)
+        {
+            return Parent.Jobs.Add(job, this);
         }
 
         internal Models.Job.JobPipeline ToJobPipeline()
@@ -97,6 +136,7 @@ namespace NGitLab.Mock
                 FinishedAt = FinishedAt.HasValue ? FinishedAt.Value.UtcDateTime : default,
                 Duration = Duration.HasValue ? Duration.Value.Ticks : 0,
                 Coverage = Coverage,
+                WebUrl = Parent?.WebUrl + "/-/pipelines/" + Id.ToString(CultureInfo.InvariantCulture),
             };
         }
     }

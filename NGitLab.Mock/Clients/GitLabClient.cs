@@ -2,6 +2,8 @@
 {
     internal sealed class GitLabClient : ClientBase, IGitLabClient
     {
+        private IGraphQLClient _graphQLClient;
+
         public GitLabClient(ClientContext context)
             : base(context)
         {
@@ -36,6 +38,12 @@
         public IEpicClient Epics { get; }
 
         public IMergeRequestClient MergeRequests => new MergeRequestClient(Context);
+
+        public IGraphQLClient GraphQL
+        {
+            get => _graphQLClient ??= Server.DefaultGraphQLClient ??= new GraphQLClient(Context);
+            internal set => _graphQLClient = value;
+        }
 
         public IEventClient GetEvents() => new EventClient(Context);
 

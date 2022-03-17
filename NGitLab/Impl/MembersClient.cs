@@ -58,7 +58,14 @@ namespace NGitLab.Impl
 
         public Membership GetMemberOfProject(string projectId, string userId)
         {
-            return _api.Get().To<Membership>(Project.Url + "/" + WebUtility.UrlEncode(projectId) + "/members/" + WebUtility.UrlEncode(userId));
+            return GetMemberOfProject(projectId, userId, includeInheritedMembers: false);
+        }
+
+        public Membership GetMemberOfProject(string projectId, string userId, bool includeInheritedMembers)
+        {
+            var url = $"{Project.Url}/{WebUtility.UrlEncode(projectId)}/members/{(includeInheritedMembers ? "all/" : string.Empty)}{WebUtility.UrlEncode(userId)}";
+
+            return _api.Get().To<Membership>(url);
         }
 
         public Membership AddMemberToProject(string projectId, ProjectMemberCreate user)
@@ -69,6 +76,16 @@ namespace NGitLab.Impl
         public Membership UpdateMemberOfProject(string projectId, ProjectMemberUpdate user)
         {
             return _api.Put().With(user).To<Membership>(Project.Url + "/" + WebUtility.UrlEncode(projectId) + "/members/" + WebUtility.UrlEncode(user.UserId));
+        }
+
+        public Membership AddMemberToGroup(string groupId, GroupMemberCreate user)
+        {
+            return _api.Post().With(user).To<Membership>(Group.Url + "/" + WebUtility.UrlEncode(groupId) + "/members");
+        }
+
+        public Membership UpdateMemberOfGroup(string groupId, GroupMemberUpdate user)
+        {
+            return _api.Put().With(user).To<Membership>(Group.Url + "/" + WebUtility.UrlEncode(groupId) + "/members/" + WebUtility.UrlEncode(user.UserId));
         }
     }
 }
